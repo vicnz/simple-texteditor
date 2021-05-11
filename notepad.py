@@ -143,6 +143,7 @@ class Window(parentClass): # root class window
 		self.filename = fd.askopenfilename(filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
 		with open(self.filename, 'r') as file:
 			try:
+				self.textarea.delete('1.0', tk.END)
 				self.text_content = file.read()
 				self.textlength = len(self.text_content) # used for closing the app
 				self.textarea.insert(tk.INSERT, self.text_content)
@@ -155,7 +156,7 @@ class Window(parentClass): # root class window
 		self.textarea.delete(0.0, tk.END)
 		self.filename = ""
 		self.text_content = ""
-		self.title("NotepadX")
+		self.title("TextEditor")
 
 	# Save As option
 	def save_as_option(self):
