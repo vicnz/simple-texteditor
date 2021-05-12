@@ -28,7 +28,7 @@ class Window(parentClass): # root class window
 			parentClass.__init__(self)
 
 		# window property
-		self.title("Basic Text Editor")
+		self.title("Simple Text Editor")
 		self.columnconfigure(0, weight=1)
 		self.rowconfigure(0, weight=1)
 		self.geometry('1200x500')
@@ -71,7 +71,7 @@ class Window(parentClass): # root class window
 
 
 	def application_menu(self):
-		# root menu
+		# application menu
 		app_menu = tk.Menu(self)
 		self.config(menu=app_menu)
 
@@ -151,12 +151,12 @@ class Window(parentClass): # root class window
 			except Exception as e:
 				md.showerror("File Parsing", "File Type Unsupported")
 
-	# New Creation
+	# Create New File
 	def new_file(self, event=None):
 		self.textarea.delete(0.0, tk.END)
 		self.filename = ""
 		self.text_content = ""
-		self.title("TextEditor")
+		self.title("Untitled")
 
 	# Save As option
 	def save_as_option(self):
@@ -208,18 +208,21 @@ class Window(parentClass): # root class window
 		currentTextLength = len(self.textarea.get(0.0, tk.END))
 
 		if currentTextLength != self.textlength:
-			result = md.askyesno("Exit App", "Do You Want To Save The File")
-			if result:
+			result = md.askyesnocancel("Exit App", "Do You Want To Save The File")	# ask user for confirmation exit if file is modified
+			if result == None:
+				return
+			elif result == True:
 				self.save_file_option()
 			else:
 				self.destroy()
 		else:
 			self.destroy()
 
+	# Close App
 	def destroy(self):
 		super().destroy()
 
-	# Info Menu Popup
+	# Info Menu Popup (About)
 	def open_info_button(self):
 		newwindow = tk.Toplevel(self)
 		newwindow.title("About")
@@ -230,13 +233,15 @@ class Window(parentClass): # root class window
 		root.rowconfigure(0, weight=1)
 		root.pack()
 		Label(root, text="About Editor", font=('Helvetica', 16, 'normal')).pack(pady=5, padx=5)
-		tk.Message(root, fg="dimgray", text="This Is Only A Dummy Text Editor I Made To Pass My Time And Stuff, Its Not An Official App So It May Have A Lot Of Bugs.\n\n#ZachWaterson").pack(pady=5, padx=5)
+		tk.Message(root, fg="dimgray", text="This is only a dummy Text Editor I made to pass my time and stuff, Its not an full fledge app so it may have a lot of bugs.\n\n#neonzone").pack(pady=5, padx=5)
 
 
 	# Start Application
 	def start(self):
 		self.mainloop()
 
+
+# main
 if __name__ == '__main__':
 	win = Window(theme='arc') # set theme for ttkthemes if it exist
 	win.start()
